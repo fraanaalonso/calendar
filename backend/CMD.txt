@@ -1,0 +1,3 @@
+Create package JSON: npm init -y (starting point for NODEJS)
+NodeMon: npm i nodemon -g
+
