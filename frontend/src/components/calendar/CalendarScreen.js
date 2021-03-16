@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'moment/locale/es';
@@ -9,7 +9,7 @@ import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
-import { cleanActiveNote, eventSetActive } from '../../actions/events';
+import { cleanActiveNote, eventSetActive, eventStartLoading } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
 import { DeleteEventFab } from '../ui/DeleteEventFab';
 
@@ -22,6 +22,11 @@ export const CalendarScreen = () => {
 
     const [lastView, setlastView] = useState(localStorage.getItem('lastView') || 'month')
     const dispatch = useDispatch();
+    const {uid} = useSelector(state => state.auth)
+
+    useEffect(() => {
+        dispatch(eventStartLoading())
+    }, [ dispatch ]);
 
     //read events store
 
@@ -47,7 +52,7 @@ export const CalendarScreen = () => {
     const eventStyleGetter = ( event, start, end, isSelected ) => {
 
         const style = {
-            backgroundColor: '#367CF7',
+            backgroundColor: ( uid === event.user._id) ? '#367CF7' : '#465660',
             borderRadius: '0px',
             opacity: 0.8,
             display: 'block',

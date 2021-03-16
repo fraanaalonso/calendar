@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
-import Swal from 'sweetalert2';
+//import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { cleanActiveNote, eventAddNew, eventUpdated } from '../../actions/events';
+import { cleanActiveNote, eventStartAddNew, eventStartUpdate } from '../../actions/events';
 const customStyles = {
     content : {
       top                   : '50%',
@@ -39,7 +39,7 @@ export const CalendarModal = () => {
    const [formValues, setFormValues] = useState( initEvent );
    const {modalOpen} = useSelector(state => state.ui)
    const dispatch = useDispatch()
-   const { notes, title, start, endForm } = formValues;
+   const { notes, title } = formValues;
 
    useEffect(() => {
        if( active ){
@@ -84,8 +84,8 @@ export const CalendarModal = () => {
 
     const handleSubmitForm = ( e ) => {
         e.preventDefault();
-        const momentStart = moment( start );
-        const momentEnd = moment( endForm );
+        //const momentStart = moment( start );
+        //const momentEnd = moment( endForm );
 
         
 
@@ -96,18 +96,11 @@ export const CalendarModal = () => {
         //cuando edito un evento, el active pasa a contener dicho evento. Si añado, eso no ocurre
 
         if( active ){
-            dispatch( eventUpdated(formValues) );
+            dispatch( eventStartUpdate(formValues) );
         }
         else{
 
-            dispatch( eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: {
-                    _id: '123',
-                    name: 'Fran'
-                }
-            }) )
+            dispatch( eventStartAddNew(formValues))
     
             
 
