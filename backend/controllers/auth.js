@@ -84,14 +84,14 @@ const loginUser = async(req, resp = response) => {
 
 const renewToken = async(req, resp = response) => {
 
-    const {uuid, name} = req
-
-
-    //generate a new JSONWeb Token
+    const {uuid, name} = req;
     const token = await generateJSONWebToken(uuid, name);
     resp.json({
+
         ok: true,
-        token
+        token,
+        uid: uuid,
+        name
     })
 }
 
